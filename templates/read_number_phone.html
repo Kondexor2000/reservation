@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number Phone</title>
+</head>
+<body>
+    <h2>Your Phone Numbers</h2>
+    <ul>
+        {% for number in number_phone %}
+            <li>{{ number.phone_number }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
