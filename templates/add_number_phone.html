@@ -53,7 +53,7 @@
     <script>
         function validateForm() {
             const phoneNumber = document.querySelector('input[type="text"]').value;
-            const phonePattern = /^[0-9]{10}$/;
+            const phonePattern = /^[0-9]{9}$/;
 
             if (!phonePattern.test(phoneNumber)) {
                 alert("Please enter a valid 10-digit phone number.");
