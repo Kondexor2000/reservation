@@ -3,8 +3,6 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from .models import NumberPhone
 
-# Create your tests here.
-
 class SignUpLoginTests(TestCase):
 
     def setUp(self):
@@ -30,7 +28,7 @@ class SignUpLoginTests(TestCase):
 
     def test_logout_view(self):
         response = self.client.get(reverse('logout'))
-        self.assertEqual(response.status_code, 302)  # Should redirect to login page
+        self.assertEqual(response.status_code, 302)  
 
 class OrderTests(TestCase):
 

@@ -9,8 +9,8 @@ from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.contrib import messages
 
-from .forms import OrderForm, NumberPhoneForm  # Zakładając, że masz te formularze zdefiniowane w forms.py
-from .models import NumberPhone, Order  # Zakładając, że masz te modele zdefiniowane w models.py
+from .forms import OrderForm, NumberPhoneForm 
+from .models import NumberPhone, Order 
 import logging
 
 logger = logging.getLogger(__name__)
@@ -84,7 +84,7 @@ class CustomLoginView(LoginView):
         
         remember_me = form.cleaned_data.get('remember_me', False)
         if remember_me:
-            self.request.session.set_expiry(1209600)  # 2 weeks in seconds
+            self.request.session.set_expiry(1209600)  
         messages.success(self.request, "Login successful.")
         return super().form_valid(form)
 
