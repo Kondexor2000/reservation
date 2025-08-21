@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cosmetapp',
+    'reservationapp',
     'templates',
+    "graphene_django",
     'rest_framework'
 ]
 
@@ -52,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'cosmet.urls'
+ROOT_URLCONF = 'reservation.urls'
 
 TEMPLATES = [
     {
@@ -70,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'cosmet.wsgi.application'
+WSGI_APPLICATION = 'reservation.wsgi.application'
 
 
 # Database
@@ -79,11 +80,18 @@ WSGI_APPLICATION = 'cosmet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bee',  # Replace with your database name
+        'NAME': 'reservation',  # Replace with your database name
         'USER': 'postgres',  # Replace with your database user
         'PASSWORD': 'postgres',  # Replace with your database password
         'HOST': 'localhost',  # Or your database server's address
         'PORT': '5432',  # Default PostgreSQL port
+    }
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',  # Połączenie z serwerem Redis
     }
 }
 

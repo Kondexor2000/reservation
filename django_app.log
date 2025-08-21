@@ -1,0 +1,43 @@
+WARNING 2025-08-19 18:21:13,511 log Not Found: /accounts/login/
+WARNING 2025-08-19 18:21:13,512 basehttp "GET /accounts/login/?next=/ HTTP/1.1" 404 3556
+WARNING 2025-08-19 18:21:13,600 log Not Found: /favicon.ico
+WARNING 2025-08-19 18:21:13,601 basehttp "GET /favicon.ico HTTP/1.1" 404 3537
+WARNING 2025-08-19 18:21:27,871 log Not Found: /accounts/login/
+WARNING 2025-08-19 18:21:27,871 basehttp "GET /accounts/login/?next=/ HTTP/1.1" 404 3549
+WARNING 2025-08-19 18:21:40,350 log Not Found: /accounts/login/
+WARNING 2025-08-19 18:21:40,350 basehttp "GET /accounts/login/?next=/ HTTP/1.1" 404 3550
+WARNING 2025-08-19 18:21:41,085 log Not Found: /accounts/login/
+WARNING 2025-08-19 18:21:41,085 basehttp "GET /accounts/login/?next=/ HTTP/1.1" 404 3550
+WARNING 2025-08-19 18:21:53,299 log Not Found: /accounts/login/
+WARNING 2025-08-19 18:21:53,300 basehttp "GET /accounts/login/?next=/ HTTP/1.1" 404 3556
+ERROR 2025-08-19 18:21:59,534 log Internal Server Error: /graphql
+Traceback (most recent call last):
+  File "C:\Users\kondz\venv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\kondz\venv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\kondz\venv\lib\site-packages\django\views\generic\base.py", line 97, in view
+    self = cls(**initkwargs)
+  File "C:\Users\kondz\venv\lib\site-packages\graphene_django\views.py", line 135, in __init__
+    assert isinstance(
+AssertionError: A Schema is required to be provided to GraphQLView.
+ERROR 2025-08-19 18:21:59,536 basehttp "GET /graphql HTTP/1.1" 500 78302
+ERROR 2025-08-19 18:37:14,532 log Internal Server Error: /graphql
+Traceback (most recent call last):
+  File "C:\Users\kondz\venv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\kondz\venv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\kondz\venv\lib\site-packages\django\views\generic\base.py", line 97, in view
+    self = cls(**initkwargs)
+  File "C:\Users\kondz\venv\lib\site-packages\graphene_django\views.py", line 135, in __init__
+    assert isinstance(
+AssertionError: A Schema is required to be provided to GraphQLView.
+ERROR 2025-08-19 18:37:14,534 basehttp "GET /graphql HTTP/1.1" 500 78555
+WARNING 2025-08-19 18:37:14,590 log Not Found: /favicon.ico
+WARNING 2025-08-19 18:49:01,405 log Bad Request: /graphql
+WARNING 2025-08-19 18:49:01,405 basehttp "POST /graphql HTTP/1.1" 400 95
+WARNING 2025-08-19 18:49:11,141 log Bad Request: /graphql
+WARNING 2025-08-19 18:49:11,141 basehttp "POST /graphql HTTP/1.1" 400 95
+WARNING 2025-08-19 18:49:11,885 log Bad Request: /graphql
+WARNING 2025-08-19 18:49:11,885 basehttp "POST /graphql HTTP/1.1" 400 95

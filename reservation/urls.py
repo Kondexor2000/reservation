@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from cosmetapp import views
+from reservationapp import views
+from graphene_django.views import GraphQLView
+from reservationapp import schema
 
 urlpatterns = [
+    path("graphql", GraphQLView.as_view(graphiql=True, schema=schema.schema)),
     path('admin/', admin.site.urls),
     path('signup/', views.SignUpView.as_view(), name='signup'),
     path('edit-profile/', views.EditProfileView.as_view(), name='edit_profile'),

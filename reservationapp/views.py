@@ -8,9 +8,11 @@ from django.urls import reverse_lazy
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.contrib import messages
+import graphene
+from graphene_django.types import DjangoObjectType
 
 from .forms import OrderForm, NumberPhoneForm 
-from .models import NumberPhone, Order 
+from .models import NumberPhone, Order, Category
 import logging
 
 logger = logging.getLogger(__name__)
@@ -170,3 +172,109 @@ def orders_by_request_user(request):
         logger.error(f"Error retrieving categories for user {request.user}: {e}")
 
     return render(request, template_name, {'order': order})
+
+# --- Typy oparte o modele ---
+class OrderType(DjangoObjectType):
+    class Meta:
+        model = Order
+        fields = ("id", "user", "category")  # tylko istniejące pola
+
+class NumberPhoneType(DjangoObjectType):
+    class Meta:
+        model = NumberPhone
+        fields = ("id", "user", "number_phone")  # poprawna nazwa
+
+# --- Query (odpowiedniki widoków read) ---
+class Query(graphene.ObjectType):
+    my_orders = graphene.List(OrderType)
+    my_numbers = graphene.List(NumberPhoneType)
+
+    def resolve_my_orders(self, info):
+        user = info.context.user
+        if user.is_authenticated:
+            return Order.objects.filter(user=user)
+        return Order.objects.none()
+
+    def resolve_my_numbers(self, info):
+        user = info.context.user
+        if user.is_authenticated:
+            return NumberPhone.objects.filter(user=user)
+        return NumberPhone.objects.none()
+    
+# --- Mutacje dla Order ---
+class CreateOrder(graphene.Mutation):
+    class Arguments:
+        category_id = graphene.ID(required=True)  # zamiast product/quantity
+
+    order = graphene.Field(OrderType)
+
+    def mutate(self, info, category_id):
+        user = info.context.user
+        if not user.is_authenticated:
+            raise Exception("Musisz być zalogowany")
+        try:
+            category = Category.objects.get(id=category_id)
+        except Category.DoesNotExist:
+            raise Exception("Kategoria nie istnieje")
+
+        order = Order(user=user, category=category)
+        order.save()
+        return CreateOrder(order=order)
+
+class DeleteOrder(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID(required=True)
+
+    ok = graphene.Boolean()
+
+    def mutate(self, info, id):
+        user = info.context.user
+        try:
+            order = Order.objects.get(id=id, user=user)
+            order.delete()
+            return DeleteOrder(ok=True)
+        except Order.DoesNotExist:
+            return DeleteOrder(ok=False)
+
+# --- Mutacje dla NumberPhone ---
+class CreateNumberPhone(graphene.Mutation):
+    class Arguments:
+        number_phone = graphene.String(required=True)  # poprawiona nazwa
+
+    number = graphene.Field(NumberPhoneType)
+
+    def mutate(self, info, number_phone):
+        user = info.context.user
+        if not user.is_authenticated:
+            raise Exception("Musisz być zalogowany")
+        number = NumberPhone(user=user, number_phone=number_phone)
+        number.save()
+        return CreateNumberPhone(number=number)
+
+class UpdateNumberPhone(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID(required=True)
+        number_phone = graphene.String(required=True)
+
+    number = graphene.Field(NumberPhoneType)
+
+    def mutate(self, info, id, number_phone):
+        user = info.context.user
+        if not user.is_authenticated:
+            raise Exception("Musisz być zalogowany")
+
+        try:
+            number = NumberPhone.objects.get(id=id, user=user)
+        except NumberPhone.DoesNotExist:
+            raise Exception("Numer nie istnieje")
+
+        number.number_phone = number_phone
+        number.save()
+        return UpdateNumberPhone(number=number)
+
+# --- Root Mutations ---
+class Mutation(graphene.ObjectType):
+    create_order = CreateOrder.Field()
+    delete_order = DeleteOrder.Field()
+    create_number_phone = CreateNumberPhone.Field()
+    update_number_phone = UpdateNumberPhone.Field()
