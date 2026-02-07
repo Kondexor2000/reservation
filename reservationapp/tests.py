@@ -27,7 +27,7 @@ class SignUpLoginTests(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_logout_view(self):
-        response = self.client.get(reverse('logout'))
+        response = self.client.post(reverse('logout'))
         self.assertEqual(response.status_code, 302)  
 
 class OrderTests(TestCase):
@@ -39,10 +39,6 @@ class OrderTests(TestCase):
 
     def test_add_order_view(self):
         response = self.client.get(reverse('add_order'))
-        self.assertEqual(response.status_code, 200)
-
-    def test_orders_by_request_user(self):
-        response = self.client.get(reverse('orders'))
         self.assertEqual(response.status_code, 200)
 
 class NumberPhoneTests(TestCase):
@@ -59,6 +55,11 @@ class NumberPhoneTests(TestCase):
     def test_update_number_phone_view(self):
         phone_number = NumberPhone.objects.create(user=self.user, number_phone='123456789')
         response = self.client.get(reverse('update_number_phone', args=[phone_number.pk]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_number_phone_view(self):
+        phone_number = NumberPhone.objects.create(user=self.user, number_phone='123456789')
+        response = self.client.get(reverse('delete_number_phone', args=[phone_number.pk]))
         self.assertEqual(response.status_code, 200)
 
     def test_number_phone_by_request_user(self):

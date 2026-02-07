@@ -43,6 +43,12 @@
     </style>
 </head>
 <body>
+    <form method="post" action="{% url 'logout' %}">
+  {% csrf_token %}
+  <button type="submit">Logout</button>
+</form>
+    <a href="{% url 'edit_profile' %}">Edytuj konto</a>
+    <a href="{% url 'delete_account' %}">Usuń konto</a>
     <h2>Add Phone Number</h2>
     <form method="post" onsubmit="return validateForm()">
         {% csrf_token %}

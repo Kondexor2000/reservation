@@ -1,6 +1,6 @@
 # Reservation
 
-A brief description of the project and its purpose. A short overview of what the project does and what problems it solves.
+Projekt zawiera funkcję CRUD dla numerów telefonów, system logowania i rejestracji oraz złożenia zamówienia.
 
 ## Table of Contents
 
@@ -24,13 +24,13 @@ A brief description of the project and its purpose. A short overview of what the
 ```bash
 git clone https://github.com/Kondexor2000/reservation.git
 venv\Scripts\Active
-cd cosmet
+cd {name_folder}
 mkdir requirements.txt
 pip freeze > requirements.txt
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py makemigrations
-pytest
+python manage.py test
 python manage.py runserver
 
 ### Notes for Usage

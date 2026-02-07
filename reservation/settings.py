@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+LOGOUT_REDIRECT_URL = "/login/"
 
 # Application definition
 
@@ -39,8 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'reservationapp',
     'templates',
-    "graphene_django",
-    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -87,14 +86,6 @@ DATABASES = {
         'PORT': '5432',  # Default PostgreSQL port
     }
 }
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',  # Połączenie z serwerem Redis
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Number Phone</title>
+    <title>Delete Number Phone</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -64,27 +64,12 @@
 </form><a href="{% url 'logout' %}">Wyloguj się</a>
         <a href="{% url 'edit_profile' %}">Edytuj konto</a>
         <a href="{% url 'delete_account' %}">Usuń konto</a>
-        <h2>Update Number Phone</h2>
-        <form method="post" onsubmit="return validatePhoneForm()">
+        <h2>Delete Number Phone</h2>
+        <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Update</button>
+            <button type="submit">Delete</button>
         </form>
     </div>
-
-    <script>
-        function validatePhoneForm() {
-            var phoneNumber = document.querySelector('input[name="phone_number"]');
-            var phonePattern = /^[0-9]{10}$/;
-
-            if (phoneNumber && !phonePattern.test(phoneNumber.value)) {
-                alert("Please enter a valid 10-digit phone number.");
-                phoneNumber.focus();
-                return false;
-            }
-
-            return true;
-        }
-    </script>
 </body>
 </html>

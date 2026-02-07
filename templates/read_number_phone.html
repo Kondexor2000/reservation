@@ -95,12 +95,21 @@
 </head>
 <body>
     <div class="container">
+        <form method="post" action="{% url 'logout' %}">
+  {% csrf_token %}
+  <button type="submit">Logout</button>
+</form>
+        <a href="{% url 'edit_profile' %}">Edytuj konto</a>
+        <a href="{% url 'delete_account' %}">Usuń konto</a>
         <h2>Your Phone Numbers</h2>
+        <a href="{% url 'add_number_phone' %}">Dodaj numer telefonu</a>
+        <a href="{% url 'add_order' %}">Złóż zamówienie</a>
         <ul>
             {% for number in number_phone %}
                 <li>
-                    <span class="phone-number">{{ number.phone_number }}</span>
-                    <button class="copy-btn" onclick="copyToClipboard('{{ number.phone_number }}')">Copy</button>
+                    <span class="phone-number">{{ number.number_phone }}</span>
+                    <a href="{% url 'update_number_phone' pk=number.id %}">Edytuj numer telefonu</a>
+                    <a href="{% url 'delete_number_phone' pk=number.id %}">Usuń numer telefonu</a>
                 </li>
             {% endfor %}
         </ul>

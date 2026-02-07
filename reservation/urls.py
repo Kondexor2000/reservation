@@ -17,20 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from reservationapp import views
-from graphene_django.views import GraphQLView
-from reservationapp import schema
 
 urlpatterns = [
-    path("graphql", GraphQLView.as_view(graphiql=True, schema=schema.schema)),
     path('admin/', admin.site.urls),
     path('signup/', views.SignUpView.as_view(), name='signup'),
     path('edit-profile/', views.EditProfileView.as_view(), name='edit_profile'),
     path('delete-account/', views.DeleteAccountView.as_view(), name='delete_account'),
-    path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('', views.CustomLoginView.as_view(), name='login'),
     path('logout/', views.CustomLogoutView.as_view(), name='logout'),
-    path('', views.AddOrderView.as_view(), name='add_order'),
-    path('add-number-phone/', views.AddNumberPhoneView.as_view(), name='add_number_phone'),
-    path('update-number-phone/<int:pk>/', views.UpdateNumberPhoneView.as_view(), name='update_number_phone'),
+    path('order/', views.AddOrderView.as_view(), name='add_order'),
+    path('number-phone/add/', views.AddNumberPhoneView.as_view(), name='add_number_phone'),
+    path('number-phone/<int:pk>/', views.UpdateNumberPhoneView.as_view(), name='update_number_phone'),
+    path('number-phone/<int:pk>/delete', views.DeleteNumberPhoneView.as_view(), name='delete_number_phone'),
     path('number-phone/', views.number_phone_by_request_user, name='number_phone'),
-    path('orders/', views.orders_by_request_user, name='orders'),
 ]
