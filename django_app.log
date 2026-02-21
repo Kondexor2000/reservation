@@ -164,3 +164,5 @@ django.urls.exceptions.NoReverseMatch: Reverse for 'delete_number_phone' not fou
 ERROR 2026-02-07 19:30:53,731 basehttp "GET /number-phone/ HTTP/1.1" 500 137506
 WARNING 2026-02-07 19:33:45,108 log Not Found: /orders/
 WARNING 2026-02-07 19:33:45,109 basehttp "GET /orders/ HTTP/1.1" 404 3979
+WARNING 2026-02-21 08:03:24,373 log Not Found: /favicon.ico
+WARNING 2026-02-21 08:03:24,373 basehttp "GET /favicon.ico HTTP/1.1" 404 3991

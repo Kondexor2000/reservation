@@ -97,51 +97,45 @@ class CustomLogoutView(LoginRequiredMixin, LogoutView):
     def dispatch(self, request, *args, **kwargs):
         messages.info(request, "Wylogowałeś/aś się! Dobrze, że nie na zawsze :)")
         return super().dispatch(request, *args, **kwargs)
+    
+class AssignUserMixin:
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
+class CheckTemplateMixin:
+    def dispatch(self, request, *args, **kwargs):
+        if not check_template(self.template_name, request):
+            return HttpResponse("Gdzie jest plik .html?")
+        return super().dispatch(request, *args, **kwargs)
 
-class AddOrderView(LoginRequiredMixin, CreateView):
+class AddOrderView(
+    LoginRequiredMixin,
+    CheckTemplateMixin,
+    AssignUserMixin,
+    CreateView
+):
     form_class = OrderForm
     template_name = 'add_order.html'
     success_url = reverse_lazy('number_phone')
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-    
-    def dispatch(self, request, *args, **kwargs):
-        if not check_template(self.template_name, request):
-            return HttpResponse("Gdzie jest plik .html?")
-        return super().dispatch(request, *args, **kwargs)
-
-class AddNumberPhoneView(LoginRequiredMixin, CreateView):
+class AddNumberPhoneView(
+    LoginRequiredMixin,
+    CheckTemplateMixin,
+    AssignUserMixin,
+    CreateView
+):
     form_class = NumberPhoneForm
     template_name = 'add_number_phone.html'
     success_url = reverse_lazy('number_phone')
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-    
-    def dispatch(self, request, *args, **kwargs):
-        if not check_template(self.template_name, request):
-            return HttpResponse("Gdzie jest plik .html?")
-        return super().dispatch(request, *args, **kwargs)
-
-class UpdateNumberPhoneView(LoginRequiredMixin, UpdateView):
+class UpdateNumberPhoneView(LoginRequiredMixin, CheckTemplateMixin, AssignUserMixin, UpdateView):
     model = NumberPhone
     form_class = NumberPhoneForm
     template_name = 'update_number_phone.html'
     success_url = reverse_lazy('number_phone')
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
     
-    def dispatch(self, request, *args, **kwargs):
-        if not check_template(self.template_name, request):
-            return HttpResponse("Gdzie jest plik .html?")
-        return super().dispatch(request, *args, **kwargs)
-    
-class DeleteNumberPhoneView(LoginRequiredMixin, DeleteView):
+class DeleteNumberPhoneView(LoginRequiredMixin, CheckTemplateMixin, DeleteView):
     model = NumberPhone
     template_name = 'delete_number_phone.html'
     success_url = reverse_lazy('number_phone')
@@ -149,11 +143,6 @@ class DeleteNumberPhoneView(LoginRequiredMixin, DeleteView):
     def get_object(self, queryset=None):
         pk_id = self.kwargs.get('pk')
         return get_object_or_404(NumberPhone, id=pk_id, user=self.request.user)
-    
-    def dispatch(self, request, *args, **kwargs):
-        if not check_template(self.template_name, request):
-            return HttpResponse("Gdzie jest plik .html?")
-        return super().dispatch(request, *args, **kwargs)
 
 def number_phone_by_request_user(request):
     template_name = 'read_number_phone.html'
