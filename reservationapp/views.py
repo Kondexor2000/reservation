@@ -106,21 +106,21 @@ class AddNumberPhoneView(LoginRequiredMixin, AssignUserMixin, CreateView):
     template_name = 'add_number_phone.html'
     success_url = reverse_lazy('number_phone')
 
-
-class UpdateNumberPhoneView(LoginRequiredMixin, UpdateView):
+class BaseNumberPhoneView(LoginRequiredMixin):
     model = NumberPhone
+    success_url = reverse_lazy('number_phone')
+
+
+class UpdateNumberPhoneView(BaseNumberPhoneView, UpdateView):
     form_class = NumberPhoneForm
     template_name = 'update_number_phone.html'
-    success_url = reverse_lazy('number_phone')
 
     def get_queryset(self):
         return NumberPhone.objects.filter(user=self.request.user)
 
 
-class DeleteNumberPhoneView(LoginRequiredMixin, DeleteView):
-    model = NumberPhone
+class DeleteNumberPhoneView(BaseNumberPhoneView, DeleteView):
     template_name = 'delete_number_phone.html'
-    success_url = reverse_lazy('number_phone')
 
     def get_queryset(self):
         return NumberPhone.objects.filter(user=self.request.user)
